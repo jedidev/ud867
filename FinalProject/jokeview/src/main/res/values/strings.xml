@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">jokeview</string>
+    <string name="joke_finish_button">Finished</string>
+</resources>

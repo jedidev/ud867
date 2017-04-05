@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="joke_text" type="TextView">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@android:color/holo_blue_dark</item>
+    </style>
+
+    <style name="joke_finish_button" type="Button">
+        <item name="android:background">@android:color/holo_blue_dark</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+</resources>
