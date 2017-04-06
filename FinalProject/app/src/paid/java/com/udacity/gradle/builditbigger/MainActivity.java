@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.udacity.gradle.builditbigger.heal.JokesProvider;
@@ -19,13 +21,25 @@ import static com.udacity.gradle.builditbigger.heal.jokeview.JokeActivity.JOKE_T
 public class MainActivity extends AppCompatActivity {
 
     private JokesProvider jokesProvider;
+    private Button remoteButton;
+    private Button localButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        remoteButton = (Button) findViewById(R.id.remote_joke_button);
+        localButton = (Button) findViewById(R.id.local_joke_button);
         jokesProvider = new JokesProvider();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        remoteButton.setVisibility(View.VISIBLE);
+        remoteButton.setEnabled(true);
+        localButton.setEnabled(true);
     }
 
     @Override
@@ -52,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void tellLocalJoke(View view) {
 
+        localButton.setEnabled(false);
+        remoteButton.setEnabled(false);
+
         String joke = jokesProvider.getRandomJoke();
         Intent intent = new Intent(this, JokeActivity.class);
         intent.putExtra(JOKE_TEXT_EXTRA, joke);
@@ -61,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void tellRemoteJoke(View view) throws ExecutionException, InterruptedException {
 
+        localButton.setEnabled(false);
+        remoteButton.setEnabled(false);
+        remoteButton.setVisibility(View.INVISIBLE);
         new RemoteJokeAsyncTask(this).execute();
     }
 
