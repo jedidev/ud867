@@ -1,6 +1,7 @@
 package com.udacity.gradle.builditbigger;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -8,13 +9,19 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.udacity.gradle.builditbigger.heal.JokesProvider;
+import com.udacity.gradle.builditbigger.heal.backend.Joke;
 import com.udacity.gradle.builditbigger.heal.jokeview.JokeActivity;
+
+import java.io.IOException;
 
 import static com.udacity.gradle.builditbigger.heal.jokeview.JokeActivity.JOKE_TEXT_EXTRA;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String BASE_URL = "http://localhost:8080/_ah/api/jokes/v1/";
+
     private JokesProvider jokesProvider;
+    private Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +29,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         jokesProvider = new JokesProvider();
-    }
 
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .build();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -47,7 +57,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void tellJoke(View view) {
+    public void tellLocalJoke(View view) {
+
+        String joke = jokesProvider.getRandomJoke();
+        Intent intent = new Intent(this, JokeActivity.class);
+        intent.putExtra(JOKE_TEXT_EXTRA, joke);
+
+        startActivity(intent);
+    }
+
+    public void tellRemoteJoke(View view) {
+
+
 
         String joke = jokesProvider.getRandomJoke();
         Intent intent = new Intent(this, JokeActivity.class);

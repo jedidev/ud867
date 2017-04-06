@@ -5,6 +5,8 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.udacity.gradle.builditbigger.heal.JokesProvider;
 
+import static com.google.appengine.api.urlfetch.HTTPMethod.GET;
+
 @Api(
     name = "jokes",
     version = "v1",
@@ -14,12 +16,11 @@ import com.udacity.gradle.builditbigger.heal.JokesProvider;
         packagePath = ""
     )
 )
-
 public class JokeApi {
 
     private JokesProvider jokesProvider = new JokesProvider();
 
-    @ApiMethod(name = "randomjoke")
+    @ApiMethod(path = "randomjoke", name = "randomjoke", httpMethod = ApiMethod.HttpMethod.GET)
     public Joke getRandomJoke() {
 
         jokesProvider.setJokePrefix("Remote ");
